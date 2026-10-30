@@ -11,7 +11,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: manipulation;
+            touch-action: none; /* Disables browser zoom & scroll completely for seamless tapping */
         }
         body {
             background: radial-gradient(circle at top, #141f36 0%, #070a13 100%);
@@ -22,7 +22,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px 20px 80px 20px;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         .header {
             text-align: center;
@@ -94,6 +94,7 @@
             border: 10px solid #1e293b;
             transition: transform 0.05s ease;
             position: relative;
+            pointer-events: auto;
         }
         .main-coin::after {
             content: '';
@@ -110,6 +111,7 @@
             color: #ffffff;
             text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.4);
             letter-spacing: 1px;
+            pointer-events: none;
         }
         .coin-subtext {
             font-size: 12px;
@@ -119,9 +121,7 @@
             letter-spacing: 2px;
             margin-top: -2px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-        }
-        .main-coin:active {
-            transform: scale(0.92);
+            pointer-events: none;
         }
         .stats-panel {
             width: 100%;
@@ -131,6 +131,7 @@
             padding: 12px 18px;
             margin-bottom: 15px;
             border: 1px solid rgba(255,255,255,0.05);
+            touch-action: pan-y;
         }
         .energy-text {
             display: flex;
@@ -161,6 +162,7 @@
             padding: 16px;
             margin-bottom: 12px;
             border: 1px solid rgba(255,255,255,0.05);
+            touch-action: pan-y;
         }
         .card-title {
             font-size: 16px;
@@ -189,9 +191,6 @@
             font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
-        }
-        .btn:active {
-            transform: scale(0.98);
         }
         .btn-claim {
             background: linear-gradient(90deg, #2563eb, #1d4ed8);
@@ -252,6 +251,17 @@
         .nav-icon {
             font-size: 20px;
         }
+        #tab-upgrade {
+            overflow-y: auto;
+            max-height: calc(100vh - 220px);
+            padding-bottom: 20px;
+            touch-action: pan-y;
+        }
+        #tab-tasks {
+            overflow-y: auto;
+            max-height: calc(100vh - 220px);
+            touch-action: pan-y;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +278,7 @@
     <!-- TAB 1: TAP AREA -->
     <div id="tab-tap" class="tab-content active">
         <div class="coin-container">
+            <!-- Reinforced Tapping Native Target -->
             <div class="main-coin" id="coinBtn">
                 <div class="coin-text">DRS</div>
                 <div class="coin-subtext">Coin</div>
@@ -300,12 +311,3 @@
                 <div>📅 Daily Check-In</div>
                 <button class="btn btn-claim" id="claimBtn" style="width: auto; padding: 6px 15px;">Claim 1 DRS</button>
             </div>
-            <div class="item-info" style="margin-top: 10px;">
-                <div>📢 Join Telegram Channel</div>
-                <button class="btn btn-claim" id="taskTgBtn" style="width: auto; padding: 6px 15px; background: #0284c7;">+5 DRS</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 3: UPGRADE MINERS (10 BASE + DAILY UNLOCK) -->
-    <div id="tab-upgrade" class="tab-content" style="margin-top: 20px;">
