@@ -11,40 +11,26 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: manipulation;
         }
         body {
             background-color: #0b0f19;
             color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
         }
         .header {
             text-align: center;
             margin-bottom: 25px;
             width: 100%;
         }
-        .header h1 {
-            font-size: 16px;
-            color: #8a99ad;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
         .balance-container {
             font-size: 42px;
             font-weight: 800;
             color: #f3ba2f;
-            text-shadow: 0 0 20px rgba(243, 186, 47, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
         .passive-income {
             font-size: 14px;
@@ -52,40 +38,29 @@
             margin-top: 5px;
         }
         .coin-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin: 30px 0;
             position: relative;
-            width: 100%;
-            max-width: 300px;
         }
         .main-coin {
-            width: 220px;
-            height: 220px;
-            background: linear-gradient(135deg, #f3ba2f 0%, #a87900 100%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #f5b000 0%, #a87900 100%);
             border-radius: 50%;
-            box-shadow: 0 0 40px rgba(243, 186, 47, 0.4), inset 0 0 20px rgba(255,255,255,0.4);
+            box-shadow: 0 0 30px rgba(243, 186, 47, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 80px;
             cursor: pointer;
-            transition: transform 0.05s ease;
-            border: 8px solid #1e2638;
-        }
-        .main-coin:active {
-            transform: scale(0.92);
+            border: 6px solid #1e2638;
         }
         .stats-panel {
             width: 100%;
             max-width: 400px;
             background: #161c2c;
             border-radius: 16px;
-            padding: 15px 20px;
+            padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #242f48;
         }
         .energy-bar-container {
             width: 100%;
@@ -98,14 +73,7 @@
         .energy-bar {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #f3ba2f, #ffea79);
-            transition: width 0.1s linear;
-        }
-        .energy-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            color: #8a99ad;
+            background: #f3ba2f;
         }
         .card {
             width: 100%;
@@ -114,33 +82,9 @@
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 15px;
-            border: 1px solid #242f48;
-        }
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #f3ba2f;
-        }
-        .wallet-status {
-            background: #20293d;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
-            text-align: center;
-            color: #ff4a4a;
-            border: 1px dashed #ff4a4a;
-            margin-bottom: 15px;
-        }
-        .btn-grid {
-            display: flex;
-            gap: 10px;
         }
         .btn {
-            flex: 1;
+            width: 100%;
             background: #242f48;
             color: white;
             border: none;
@@ -149,43 +93,30 @@
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-        }
-        .btn-claim {
-            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
-            width: 100%;
             margin-top: 10px;
-        }
-        .btn-buy {
-            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
-        }
-        .item-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
         }
         .floating-text {
             position: absolute;
             color: #f3ba2f;
             font-size: 32px;
             font-weight: bold;
-            animation: floatUp 0.5s ease-out forwards;
+            animation: floatUp 0.4s ease-out forwards;
             pointer-events: none;
-            z-index: 10;
+            top: 40px;
+            left: 80px;
         }
         @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-80px) scale(1.3); }
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-60px); }
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Total Earnings</h1>
+        <h2 style="color:#8a99ad; font-size:16px;">Total Earnings</h2>
         <div class="balance-container">
-            <span id="balance">0</span> <span style="font-size: 24px; color:#fff;">DRS</span>
+            <span id="balance">0</span> DRS
         </div>
         <div class="passive-income">Passive Income: +<span id="pps">0</span> DRS/s</div>
     </div>
@@ -195,7 +126,7 @@
     </div>
 
     <div class="stats-panel">
-        <div class="energy-text">
+        <div style="display: flex; justify-content: space-between; font-size: 14px;">
             <span>⚡ Energy</span>
             <span><span id="energy">500</span> / 500</span>
         </div>
@@ -204,37 +135,16 @@
         </div>
     </div>
 
-    <!-- Wallet Card -->
     <div class="card">
-        <div class="card-title">👛 Real Crypto Wallet</div>
-        <div class="wallet-status">⚠️ Wallet Not Connected</div>
-        <div class="btn-grid">
-            <button class="btn" id="depositBtn">Real Deposit</button>
-            <button class="btn" id="withdrawBtn">Real Withdraw</button>
-        </div>
+        <h3>📋 Daily Quests</h3>
+        <p style="font-size:14px; margin-top:5px; color:#00ffcc;">+1,000 DRS Coins</p>
+        <button class="btn" id="claimBtn">Claim Bonus</button>
     </div>
 
-    <!-- Quests Card -->
     <div class="card">
-        <div class="card-title">📋 Daily Quests</div>
-        <div class="item-info">
-            <span>📅 Daily Check-In</span>
-            <span style="color: #00ffcc;">+1,000 DRS</span>
-        </div>
-        <button class="btn btn-claim" id="claimBtn">Claim Bonus</button>
-    </div>
-
-    <!-- Upgrade Shop Card -->
-    <div class="card">
-        <div class="card-title">🛒 DRS Upgrade Shop</div>
-        <div class="item-info">
-            <div>
-                <strong>⚙️ Basic DRS Mining Rig</strong><br>
-                <span style="color:#8a99ad; font-size:12px;">Generates +2 DRS/sec</span>
-            </div>
-            <span style="font-weight:bold; color:#f3ba2f;">500 DRS</span>
-        </div>
-        <button class="btn btn-buy" id="buyUpgradeBtn">Buy Upgrade</button>
+        <h3>🛒 DRS Upgrade Shop</h3>
+        <p style="font-size:14px; margin-top:5px; color:#8a99ad;">Price: 500 DRS (+2 DRS/sec)</p>
+        <button class="btn" id="buyUpgradeBtn">Buy Upgrade</button>
     </div>
 
     <script>
@@ -251,59 +161,62 @@
         const claimBtn = document.getElementById('claimBtn');
         const buyUpgradeBtn = document.getElementById('buyUpgradeBtn');
         const coinContainer = document.querySelector('.coin-container');
-        
-        document.getElementById('depositBtn').addEventListener('click', () => alert('Wallet integration coming soon!'));
-        document.getElementById('withdrawBtn').addEventListener('click', () => alert('Withdrawals open after TGE!'));
 
-        // Handle Tapping for Mobile & Desktop
-        function handleTap(e) {
-            e.preventDefault();
+        // Simple click & touch logic combined
+        function triggerTap() {
             if (energy > 0) {
                 balance += 1;
                 energy -= 1;
                 updateUI();
-                
-                // Get tap coordinates properly
-                let clientX, clientY;
-                if (e.touches && e.touches[0]) {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else {
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                }
-                createFloatingText(clientX, clientY);
+                createFloatingText();
             }
         }
 
-        coinBtn.addEventListener('touchstart', handleTap, { passive: false });
-        coinBtn.addEventListener('click', handleTap);
+        coinBtn.addEventListener('click', triggerTap);
+        coinBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            triggerTap();
+        });
 
         function updateUI() {
-            balanceEl.innerText = balance.toLocaleString();
+            balanceEl.innerText = balance;
             energyEl.innerText = energy;
             energyBar.style.width = (energy / maxEnergy * 100) + '%';
             ppsEl.innerText = passiveIncome;
         }
 
-        // Floating Text Animation
-        function createFloatingText(clientX, clientY) {
+        function createFloatingText() {
             const text = document.createElement('div');
             text.innerText = '+1';
             text.classList.add('floating-text');
-            
-            const rect = coinContainer.getBoundingClientRect();
-            const x = clientX - rect.left - 15;
-            const y = clientY - rect.top - 30;
-            
-            text.style.left = x + 'px';
-            text.style.top = y + 'px';
-            
             coinContainer.appendChild(text);
-            setTimeout(() => text.remove(), 500);
+            setTimeout(() => text.remove(), 400);
         }
 
-        // Daily Claim
         claimBtn.addEventListener('click', () => {
             balance += 1000;
             updateUI();
+            alert('1,000 DRS Coins Claimed!');
+            claimBtn.disabled = true;
+            claimBtn.style.background = "grey";
+        });
+
+        buyUpgradeBtn.addEventListener('click', () => {
+            if (balance >= 500) {
+                balance -= 500;
+                passiveIncome += 2;
+                updateUI();
+                alert('Mining Rig Purchased!');
+            } else {
+                alert('Not enough DRS Coins!');
+            }
+        });
+
+        setInterval(() => {
+            if (passiveIncome > 0) balance += passiveIncome;
+            if (energy < maxEnergy) energy += 1;
+            updateUI();
+        }, 1000);
+    </script>
+</body>
+</html>
