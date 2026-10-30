@@ -11,6 +11,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
+            touch-action: manipulation;
         }
         body {
             background-color: #0b0f19;
@@ -69,15 +70,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 72px;
-            font-weight: bold;
-            color: #fff;
+            font-size: 80px;
             cursor: pointer;
             transition: transform 0.05s ease;
             border: 8px solid #1e2638;
         }
         .main-coin:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
         .stats-panel {
             width: 100%;
@@ -150,10 +149,6 @@
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn:hover {
-            background: #2e3d5e;
         }
         .btn-claim {
             background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
@@ -173,14 +168,15 @@
         .floating-text {
             position: absolute;
             color: #f3ba2f;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            animation: floatUp 0.6s ease-out forwards;
+            animation: floatUp 0.5s ease-out forwards;
             pointer-events: none;
+            z-index: 10;
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1.3); }
         }
     </style>
 </head>
@@ -213,8 +209,8 @@
         <div class="card-title">👛 Real Crypto Wallet</div>
         <div class="wallet-status">⚠️ Wallet Not Connected</div>
         <div class="btn-grid">
-            <button class="btn" onclick="alert('Wallet integration coming soon!')">Real Deposit</button>
-            <button class="btn" onclick="alert('Withdrawals open after TGE!')">Real Withdraw</button>
+            <button class="btn" id="depositBtn">Real Deposit</button>
+            <button class="btn" id="withdrawBtn">Real Withdraw</button>
         </div>
     </div>
 
@@ -255,16 +251,33 @@
         const claimBtn = document.getElementById('claimBtn');
         const buyUpgradeBtn = document.getElementById('buyUpgradeBtn');
         const coinContainer = document.querySelector('.coin-container');
+        
+        document.getElementById('depositBtn').addEventListener('click', () => alert('Wallet integration coming soon!'));
+        document.getElementById('withdrawBtn').addEventListener('click', () => alert('Withdrawals open after TGE!'));
 
-        // Tap Functionality
-        coinBtn.addEventListener('click', (e) => {
+        // Handle Tapping for Mobile & Desktop
+        function handleTap(e) {
+            e.preventDefault();
             if (energy > 0) {
                 balance += 1;
                 energy -= 1;
                 updateUI();
-                createFloatingText(e);
+                
+                // Get tap coordinates properly
+                let clientX, clientY;
+                if (e.touches && e.touches[0]) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                createFloatingText(clientX, clientY);
             }
-        });
+        }
+
+        coinBtn.addEventListener('touchstart', handleTap, { passive: false });
+        coinBtn.addEventListener('click', handleTap);
 
         function updateUI() {
             balanceEl.innerText = balance.toLocaleString();
@@ -273,43 +286,24 @@
             ppsEl.innerText = passiveIncome;
         }
 
-        // Floating +1 Text Animation
-        function createFloatingText(e) {
+        // Floating Text Animation
+        function createFloatingText(clientX, clientY) {
             const text = document.createElement('div');
             text.innerText = '+1';
             text.classList.add('floating-text');
             
-            // Positioning text near click
             const rect = coinContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left - 10;
-            const y = e.clientY - rect.top - 20;
+            const x = clientX - rect.left - 15;
+            const y = clientY - rect.top - 30;
             
             text.style.left = x + 'px';
             text.style.top = y + 'px';
             
             coinContainer.appendChild(text);
-            setTimeout(() => text.remove(), 600);
+            setTimeout(() => text.remove(), 500);
         }
 
         // Daily Claim
         claimBtn.addEventListener('click', () => {
             balance += 1000;
             updateUI();
-            alert('1,000 DRS Coins Claimed successfully!');
-            claimBtn.disabled = true;
-            claimBtn.innerText = "Claimed Today";
-            claimBtn.style.background = "#242f48";
-        });
-
-        // Buy Upgrade
-        buyUpgradeBtn.addEventListener('click', () => {
-            if (balance >= 500) {
-                balance -= 500;
-                passiveIncome += 2;
-                updateUI();
-                alert('Mining Rig Purchased! Passive income active.');
-            } else {
-                alert('Not enough DRS Coins! You need 500 DRS.');
-            }
-        });
-
